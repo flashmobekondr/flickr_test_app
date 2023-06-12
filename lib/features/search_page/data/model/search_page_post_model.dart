@@ -28,7 +28,7 @@ class PostModel extends Post {
         ispublic: json["ispublic"],
         isfriend: json["isfriend"],
         isfamily: json["isfamily"],
-        photoUrl: '${ApiConstants.photoImageUrl}/${json["server"]}/${json["id"]}_${json["secret"]}.jpg'
+        photoUrl: '${ApiConstants.photoImageUrl}/${json["server"]}/${json["id"]}_${json["secret"]}_q.jpg'
   );
 
   Map<String, dynamic> toJson() => {

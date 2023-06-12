@@ -27,6 +27,7 @@ class SearchPageRemoteDataSourceImpl extends SearchPageRemoteDataSource {
     try {
       final response = await client.post(rawUrl,body: requestBody);
       if (response.statusCode == 200) {
+        print('status = 200');
         final decodedResponse = (json.decode(response.body))['photos'] as Map<String,dynamic>;
         final photosObject = PhotosModel.fromJson(decodedResponse);
         final ({Failure? error, PhotosModel? photos}) result = (error: null, photos: photosObject);
