@@ -6,7 +6,7 @@ final class ApiConstants {
   static const String apiKey = 'c489e580513435a1fada09a6ee28579b';
   static const String photoSearchMethod = 'flickr.photos.search';
   static const String format = 'json';
-  static const String perPage = '40';
+  static const String perPage = '20';
   //static  String searchPageBasedFinalEndpointUrl;
 
 }
