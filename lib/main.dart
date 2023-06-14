@@ -1,30 +1,19 @@
-import 'package:flickr_test_app/core/network/network_info.dart';
-import 'package:flickr_test_app/features/search_page/data/datasources/search_page_remote_data_source.dart';
-import 'package:flickr_test_app/features/search_page/data/repositories/search_page_repository_impl.dart';
-import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_get_photos.dart';
 import 'package:flickr_test_app/features/search_page/presentation/bloc/search_page_bloc.dart';
 import 'package:flickr_test_app/features/search_page/presentation/bloc/search_page_bloc_event.dart';
 import 'package:flickr_test_app/features/search_page/presentation/bloc/search_page_bloc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'injection_container.dart' as di;
 
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-  runApp(const EntryPage());
+  runApp(const FlickerApp());
 }
 
-// var nestedRequest = SearchPageRepositoryImpl(
-//     remoteDataSource: SearchPageRemoteDataSourceImpl(client: http.Client()) ,
-//     networkInfo:NetworkInfoImpl(connectionChecker:  InternetConnectionChecker())
-// );
-
-class EntryPage extends StatelessWidget {
-  const EntryPage({Key? key}) : super(key: key);
+class FlickerApp extends StatelessWidget {
+  const FlickerApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +29,21 @@ class EntryPage extends StatelessWidget {
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
         ),
-        home: const SearchPage(),
+        home: const HomePage(),
         )
     );
   }
 }
 
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _HomePageState extends State<HomePage> {
   final _textController = TextEditingController();
   final _scrollController = ScrollController();
 
@@ -85,15 +74,18 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
         title: TextField(
+          onSubmitted: (text){
+            if(text.isNotEmpty) {
+              BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: text));
+            }
+          },
+          textInputAction: TextInputAction.search,
           controller: _textController,
           autocorrect: true,
           //autofocus: true,
-          onChanged: (text) {
-                BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: text));
-          },
           decoration: InputDecoration(
-            //border: InputBorder.none,
-            //prefix: Icon(Icons.search),
+            border: InputBorder.none,
+            //prefix: const Icon(Icons.search),
             suffix: GestureDetector(
               onTap: _onTapClear,
               child: const Icon(Icons.clear),
@@ -150,18 +142,29 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<void> _refreshState() async{
-    final block = BlocProvider.of<SearchPageBloc>(context).stream.first;
-    BlocProvider.of<SearchPageBloc>(context).add(SearchPageRefreshPage(text: _textController.text));
-    await block;
+  Future<void> _refreshState() async {
+    if(_currentTextIsNotNull) {
+      final block = BlocProvider.of<SearchPageBloc>(context).stream.first;
+      BlocProvider.of<SearchPageBloc>(context).add(SearchPageRefreshPage(text: _textController.text));
+      await block;
+    }
   }
 
   void _onTapClear() {
     _textController.clear();
   }
   void _onScroll() {
-    if (_isBottom) BlocProvider.of<SearchPageBloc>(context).add(SearchPageLoadNewPage(text: _textController.text));
+    if (_isBottom && _currentTextIsNotNull) {
+      BlocProvider.of<SearchPageBloc>(context).add(SearchPageLoadNewPage(text: _textController.text));
+    }
     //context.read<PostBloc>().add(PostFetched());
+  }
+  bool get _currentTextIsNotNull {
+    bool isNotEmpty;
+    _textController.text.isNotEmpty
+        ? isNotEmpty = true
+        : isNotEmpty = false;
+    return isNotEmpty;
   }
 
   bool get _isBottom {
