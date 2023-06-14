@@ -8,7 +8,7 @@ enum PhotoStatus {initial, success, failure}
 // class SearchPageLoadingState extends SearchPageState {}
 //class SearchPageErrorState extends SearchPageState {}
 
-class SearchPageState extends Equatable {
+final class SearchPageState extends Equatable {
   final List<PostModel> photos;
   final bool hasReachedMax;
   final PhotoStatus status;

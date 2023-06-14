@@ -1,4 +1,8 @@
 import 'package:flickr_test_app/core/network/network_info.dart';
+import 'package:flickr_test_app/features/detail_page/data/datasources/detail_page_data_transform_impl.dart';
+import 'package:flickr_test_app/features/detail_page/domain/usecases/detail_page_usecase_transform_data.dart';
+import 'package:flickr_test_app/features/detail_page/presentation/bloc/detail_page_bloc.dart';
+import 'package:flickr_test_app/features/detail_page/presentation/bloc/detail_page_event.dart';
 import 'package:flickr_test_app/features/search_page/data/datasources/search_page_remote_data_source.dart';
 import 'package:flickr_test_app/features/search_page/data/repositories/search_page_repository_impl.dart';
 import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_get_photos.dart';
@@ -13,11 +17,12 @@ final GetIt sl = GetIt.instance; // 'sl' means service locator
 
 Future<void> init() async {
   //Bloc
-
   sl.registerFactory(() => SearchPageBloc(fetchPhotos: sl()));
+  sl.registerFactory(() => DetailPageBloc(transformData: sl()));
 
   //Use cases
   sl.registerLazySingleton(() => FetchPhotos(searchPageRepository: sl()));
+  sl.registerLazySingleton(() => TransformData(transform: sl()));
 
   //Repositories
   sl.registerLazySingleton <SearchPageRepository>(
@@ -44,4 +49,7 @@ Future<void> init() async {
   //External
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
+
+  //Transforms
+  sl.registerLazySingleton<DetailPageDataTransform>(() => DetailPageDataTransformImpl());
 }
