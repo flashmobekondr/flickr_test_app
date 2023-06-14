@@ -37,7 +37,8 @@ class SearchPageRemoteDataSourceImpl extends SearchPageRemoteDataSource {
           return failureResult;
       }
     } catch(e) {
-     throw Exception(e);
+      final ({Failure? error, PhotosModel? photos}) failureResult = (error:ServerFailure(), photos: null);
+    return failureResult;
     }
   }
 

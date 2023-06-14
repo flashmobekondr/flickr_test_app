@@ -63,7 +63,7 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
                 state.copyWith(
               status: PhotoStatus.success,
               hasReachedMax: false,
-              photos:state.photos + photos.photo,
+              photos:pageNumber == firstPageNumber ? photos.photo : state.photos + photos.photo,
               //photos: photos.photo,
               page: pageNumber,
           ),

@@ -9,32 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'injection_container.dart' as di;
 
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const EntryPage());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'title',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
-      ),
-      home: const MyHomePage(title: 'Pictures',)
-    );
-  }
-}
-
-var nestedRequest = SearchPageRepositoryImpl(
-    remoteDataSource: SearchPageRemoteDataSourceImpl(client: http.Client()) ,
-    networkInfo:NetworkInfoImpl(connectionChecker:  InternetConnectionChecker())
-);
+// var nestedRequest = SearchPageRepositoryImpl(
+//     remoteDataSource: SearchPageRemoteDataSourceImpl(client: http.Client()) ,
+//     networkInfo:NetworkInfoImpl(connectionChecker:  InternetConnectionChecker())
+// );
 
 class EntryPage extends StatelessWidget {
   const EntryPage({Key? key}) : super(key: key);
@@ -44,11 +31,7 @@ class EntryPage extends StatelessWidget {
     return  MultiBlocProvider(
         providers: [
           BlocProvider<SearchPageBloc>(
-              create: (context) => SearchPageBloc(
-                  fetchPhotos: FetchPhotos(
-                      searchPageRepository: nestedRequest
-                  ),
-              ),
+              create: (context) => di.sl<SearchPageBloc>(),
           ),
         ],
         child: MaterialApp(
@@ -106,7 +89,7 @@ class _SearchPageState extends State<SearchPage> {
           autocorrect: true,
           //autofocus: true,
           onChanged: (text) {
-                BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: _textController.text));
+                BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: text));
           },
           decoration: InputDecoration(
             //border: InputBorder.none,
@@ -115,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
               onTap: _onTapClear,
               child: const Icon(Icons.clear),
             ),
-            hintText: 'Search movie...',
+            hintText: 'Search pictures...',
           ),
         ),
       ),
@@ -130,38 +113,47 @@ class _SearchPageState extends State<SearchPage> {
               if (state.photos.isEmpty) {
                 return const Center(child: Text('no posts'));
               }
-              return GridView.builder(
-                  controller: _scrollController,
-                  gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1/1
-                  ),
-                  itemCount: state.hasReachedMax
-                      ? state.photos.length
-                      : state.photos.length + 1,
-                  itemBuilder: (context,index){
-                    return index >= state.photos.length
-                    ? const BottomLoader()
-                    : Material(
-                      child: InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        state.photos[index].photoUrl
-                                    )
-                                )
-                            ),
-                          )
-                      ),
-                    );
-                  }
+              return RefreshIndicator(
+                onRefresh: _refreshState,
+                child: GridView.builder(
+                    controller: _scrollController,
+                    gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1/1
+                    ),
+                    itemCount: state.hasReachedMax
+                        ? state.photos.length
+                        : state.photos.length + 1,
+                    itemBuilder: (context,index){
+                      return index >= state.photos.length
+                      ? const BottomLoader()
+                      : Material(
+                        child: InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                          state.photos[index].photoUrl
+                                      )
+                                  )
+                              ),
+                            )
+                        ),
+                      );
+                    }
+                ),
               );
           }
         } ,
       ),
     );
+  }
+
+  Future<void> _refreshState() async{
+    final block = BlocProvider.of<SearchPageBloc>(context).stream.first;
+    BlocProvider.of<SearchPageBloc>(context).add(SearchPageRefreshPage(text: _textController.text));
+    await block;
   }
 
   void _onTapClear() {
@@ -193,103 +185,3 @@ class BottomLoader extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key,required this.title}) ;
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int axisCount = 2;
-  final _textController = TextEditingController();
-  final _scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _featureRet()async {
-    //String text = _textController.text ?? '';
-    return;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    var nestedRequest = SearchPageRepositoryImpl(
-        remoteDataSource: SearchPageRemoteDataSourceImpl(client: http.Client()) ,
-        networkInfo:NetworkInfoImpl(connectionChecker:  InternetConnectionChecker())
-    );
-    void changeGrid(){
-      setState(() {
-        axisCount = 4;
-      });
-    }
-
-    return  Scaffold(
-      appBar: AppBar(
-        actions: [
-          GestureDetector(
-            onTap: changeGrid,
-            child:  const Icon(Icons.photo),
-          )
-        ],
-        title: const Text('AppBar'),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _featureRet,
-        child: FutureBuilder(
-          future: nestedRequest.getRemotePhotos('New York', 10),
-          builder: (BuildContext context, snapshot){
-            if(snapshot.hasData) {
-              return GridView.builder(
-                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: axisCount,
-                    childAspectRatio: 1/1
-                  ),
-                  itemCount: snapshot.data!.photos!.perpage,
-                  itemBuilder: (context,index){
-                    return Material(
-                      child: InkWell(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  snapshot.data!.photos!.photo[index].photoUrl
-                              )
-                            )
-                          ),
-                        )
-                      ),
-                    );
-                  }
-              );
-            } else {return const Text("ooooooops"); }
-          },
-        ),
-      ),
-    );
-  }
-}
-
-/*
-FadeInImage.memoryNetwork(
-                            placeholder: kTransparentImage,
-                            image: snapshot.data!.photos!.photo[index].photoUrl
-                        )
- */
