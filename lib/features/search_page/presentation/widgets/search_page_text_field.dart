@@ -12,6 +12,11 @@ class SearchPageTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: const TextStyle(
+        fontSize: 20.0,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
       onSubmitted: (text){
         if(text.isNotEmpty) {
           BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: text));
@@ -22,13 +27,33 @@ class SearchPageTextField extends StatelessWidget {
       autocorrect: true,
       //autofocus: true,
       decoration: InputDecoration(
-        border: InputBorder.none,
-        //prefix: const Icon(Icons.search),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: const BorderSide(
+              color: Colors.white60,
+              width: 3,
+            )
+        ),
         suffix: GestureDetector(
           onTap: _onTapClear,
-          child: const Icon(Icons.clear),
+          child: const Icon(
+            Icons.clear,
+            size: 20,
+          ),
         ),
         hintText: 'Search pictures...',
+        hintStyle: const TextStyle(
+          fontSize: 20.0,
+          color: Colors.white54,
+        ),
+        filled: true,
+        fillColor: Colors.black12,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide.none
+        ) ,
+        contentPadding: const EdgeInsets.only(left: 15.0,right: 15.0),
+        //prefix: const Icon(Icons.search),
       ),
     );
   }

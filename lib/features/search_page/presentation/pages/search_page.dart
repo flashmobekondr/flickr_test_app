@@ -42,6 +42,9 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         actions: [
           IconButton(
+              onPressed: ()=>0,
+              icon: const Icon(Icons.star)),
+          IconButton(
             icon:_columnIcon,
             onPressed:_switchView,
           ),

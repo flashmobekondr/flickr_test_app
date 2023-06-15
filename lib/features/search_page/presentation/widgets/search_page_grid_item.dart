@@ -26,7 +26,9 @@ class GridItem extends StatelessWidget {
           );
         },
           child: Container(
+            margin: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(state.photoUrl)
