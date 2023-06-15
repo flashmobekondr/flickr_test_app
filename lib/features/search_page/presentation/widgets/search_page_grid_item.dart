@@ -20,7 +20,7 @@ class GridItem extends StatelessWidget {
               .push(MaterialPageRoute(
               builder: (context) {
                 BlocProvider.of<DetailPageBloc>(context).add(DetailPageGetDetail(post: state));
-                return const DetailPage();
+                return  DetailPage(post: state);
               }
             )
           );

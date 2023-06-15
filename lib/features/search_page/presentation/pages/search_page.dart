@@ -71,7 +71,6 @@ class _SearchPageState extends State<SearchPage> {
                     controller: _scrollController,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: _crossAxisCount,
-                      childAspectRatio: 1/1,
                     ),
                     itemCount: state.hasReachedMax
                         ? state.photos.length

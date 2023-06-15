@@ -31,7 +31,7 @@ class PostModel extends Post {
         photoUrl: '${ApiConstants.photoImageUrl}/${json["server"]}/${json["id"]}_${json["secret"]}_${SizeSuffix.small_400}.jpg'
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
       "id": id,
       "owner": owner,
       "secret": secret,

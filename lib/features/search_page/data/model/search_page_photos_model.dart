@@ -26,6 +26,6 @@ class PhotosModel extends Photos {
       "pages": pages,
       "perpage": perpage,
       "total": total,
-      "photo": List<dynamic>.from(photo.map((x) => x.toJson())),
+      "photo": List<dynamic>.from(photo.map((x) => x.toMap())),
   };
 }
