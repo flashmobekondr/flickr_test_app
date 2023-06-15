@@ -1,4 +1,4 @@
-import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_get_photos.dart';
+import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_fetch_photos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';

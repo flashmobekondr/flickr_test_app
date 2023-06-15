@@ -5,7 +5,7 @@ import 'package:flickr_test_app/features/detail_page/presentation/bloc/detail_pa
 import 'package:flickr_test_app/features/detail_page/presentation/bloc/detail_page_event.dart';
 import 'package:flickr_test_app/features/search_page/data/datasources/search_page_remote_data_source.dart';
 import 'package:flickr_test_app/features/search_page/data/repositories/search_page_repository_impl.dart';
-import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_get_photos.dart';
+import 'package:flickr_test_app/features/search_page/domain/usecases/search_page_usecase_fetch_photos.dart';
 import 'package:flickr_test_app/features/search_page/presentation/bloc/search_page_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
