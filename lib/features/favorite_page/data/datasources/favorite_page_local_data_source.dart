@@ -2,6 +2,8 @@
 import 'package:flickr_test_app/features/search_page/data/model/search_page_post_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../../../core/api_constants/api_constants.dart';
 enum PostAction {cache, delete, get}
 
 abstract interface class FavoritePageLocalDataSource {
@@ -41,7 +43,7 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
       onCreate: (db, version) async{
         return await db.execute(
             '''CREATE TABLE $_table(
-            id INTEGER PRIMARY KEY,
+            id TEXT PRIMARY KEY,
             owner TEXT,
             secret TEXT,
             server TEXT,
@@ -80,7 +82,9 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
     final List<Map<String, dynamic>> maps = await db.query(_table);
 
     return List.generate(maps.length, (index) {
-      return PostModel.fromJson(maps[index]);
+      print('final List postModel');
+      return PostModel.fromMap(maps[index]);
+
     });
   }
 }

@@ -31,6 +31,19 @@ class PostModel extends Post {
         photoUrl: '${ApiConstants.photoImageUrl}/${json["server"]}/${json["id"]}_${json["secret"]}_${SizeSuffix.small_400}.jpg'
   );
 
+  factory PostModel.fromMap(Map<String, dynamic> map) => PostModel(
+        id: map["id"].toString(),
+        owner: map["owner"],
+        secret: map["secret"],
+        server: map["server"],
+        farm: map["farm"],
+        title: map["title"],
+        ispublic: map["ispublic"],
+        isfriend: map["isfriend"],
+        isfamily: map["isfamily"],
+        photoUrl: '${ApiConstants.photoImageUrl}/${map["server"]}/${map["id"]}_${map["secret"]}_${SizeSuffix.small_400}.jpg'
+        );
+
   Map<String, dynamic> toMap() => {
       "id": id,
       "owner": owner,
@@ -42,6 +55,7 @@ class PostModel extends Post {
       "isfriend": isfriend,
       "isfamily": isfamily,
   };
+
 }
 
 
