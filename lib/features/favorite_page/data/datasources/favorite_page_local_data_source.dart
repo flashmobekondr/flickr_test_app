@@ -38,8 +38,8 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
   Future<Database> _getDatabase() async {
     return openDatabase(
       join(await getDatabasesPath(), _databaseName),
-      onCreate: (db, version) {
-        return db.execute(
+      onCreate: (db, version) async{
+        return await db.execute(
             '''CREATE TABLE $_table(
             id INTEGER PRIMARY KEY,
             owner TEXT,
