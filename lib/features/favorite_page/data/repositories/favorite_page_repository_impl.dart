@@ -10,7 +10,7 @@ class FavoritePageRepositoryImpl implements FavoritePageRepository {
   @override
   Future<({Failure? error, List<PostModel>? post})> deleteAddOrGetLocalPosts({PostModel? post, required PostAction action}) async {
     try {
-      final result =  await localDataSource.deleteAddOrGetLocalPosts(action: action);
+      final result =  await localDataSource.deleteAddOrGetLocalPosts(action: action, post: post);
       switch (result) {
         case var list? :
           return (error: null, post: list); // if List<PostModel> is NOT null and there`s no any exceptions

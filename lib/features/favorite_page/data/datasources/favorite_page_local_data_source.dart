@@ -1,7 +1,6 @@
 
 import 'package:flickr_test_app/features/search_page/data/model/search_page_post_model.dart';
 import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 enum PostAction {cache, delete, get}
 
@@ -28,7 +27,7 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
           await _insertPost(post!);
           return null;
         case PostAction.delete :
-          await _deletePost(post!.id);
+          await _deletePost(post!);
           return null;
       }
     } catch (_) {
@@ -42,7 +41,7 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
       onCreate: (db, version) {
         return db.execute(
             '''CREATE TABLE $_table(
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             owner TEXT,
             secret TEXT,
             server TEXT,
@@ -50,7 +49,7 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
             title TEXT,
             ispublic INTEGER,
             isfriend INTEGER,
-            isfamily INTEGER,
+            isfamily INTEGER
             )
             '''
         );
@@ -61,20 +60,18 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
 
   Future<void> _insertPost (PostModel post) async {
     final db = await _getDatabase();
-
-    await db.insert(
+      await db.insert(
       _table,
       post.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  Future<void> _deletePost(String id) async {
+  Future<void> _deletePost(PostModel post) async {
     final db = await _getDatabase();
-
-    await db.delete(
+      await db.delete(
       _table,
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [post.id],
     );
   }
   Future<List<PostModel>> _getPost() async {

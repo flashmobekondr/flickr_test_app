@@ -19,13 +19,17 @@ class FavoriteButton extends StatelessWidget {
             case PostStatus.failure :
               return const Icon(Icons.error);
             case PostStatus.initial :
-              return const Icon(Icons.star_border);
+              return const Icon(Icons.view_comfortable);
             case PostStatus.success :
-              return GestureDetector(
-                child: state.posts.contains(post)
+              return IconButton(
+                icon: state.posts.contains(post)
                       ? const Icon(Icons.star)
                       : const Icon(Icons.star_border),
-                onTap: () => BlocProvider.of<FavoritePageBloc>(context).add(AdddOrRemoveEvent(post:post)),
+                onPressed: () {
+                  state.posts.contains(post)
+                  ? BlocProvider.of<FavoritePageBloc>(context).add(AdddOrRemoveEvent(post:post, action: EventAction.remove))
+                  : BlocProvider.of<FavoritePageBloc>(context).add(AdddOrRemoveEvent(post:post, action:  EventAction.insert));
+                },
               );
           }
         }

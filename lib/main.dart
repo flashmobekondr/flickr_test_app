@@ -3,6 +3,7 @@ import 'package:flickr_test_app/features/favorite_page/presentation/bloc/favorit
 import 'package:flickr_test_app/features/search_page/presentation/bloc/search_page_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/favorite_page/presentation/bloc/favorite_page_event.dart';
 import 'features/search_page/presentation/pages/search_page.dart';
 import 'injection_container.dart' as di;
 
@@ -20,7 +21,7 @@ class FlickerApp extends StatelessWidget {
     return  MultiBlocProvider(
         providers: [
           BlocProvider<FavoritePageBloc>(
-            create: (context) => di.sl<FavoritePageBloc>(),
+            create: (context) => di.sl<FavoritePageBloc>()..add(LoadFavoriteEvent()),
           ),
           BlocProvider<SearchPageBloc>(
               create: (context) => di.sl<SearchPageBloc>(),
@@ -29,13 +30,10 @@ class FlickerApp extends StatelessWidget {
               create: (context) => di.sl<DetailPageBloc>(),
           ),
         ],
-        child: MaterialApp(
+        child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flicker_test',
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
-        ),
-        home: const SearchPage(),
+        home: SearchPage(),
         )
     );
   }

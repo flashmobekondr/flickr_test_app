@@ -3,7 +3,6 @@ import 'package:flickr_test_app/features/detail_page/presentation/bloc/detail_pa
 import 'package:flickr_test_app/features/search_page/data/model/search_page_post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../detail_page/presentation/pages/detail_page.dart';
 
 class GridItem extends StatelessWidget {

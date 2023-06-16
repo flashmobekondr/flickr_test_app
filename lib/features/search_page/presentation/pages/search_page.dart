@@ -4,6 +4,7 @@ import 'package:flickr_test_app/features/search_page/presentation/widgets/search
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../favorite_page/presentation/page/favorite_page.dart';
 import '../bloc/search_page_bloc.dart';
 import '../bloc/search_page_bloc_event.dart';
 import '../bloc/search_page_bloc_state.dart';
@@ -42,7 +43,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: ()=>0,
+              onPressed: _moveToFavorites,
               icon: const Icon(Icons.star)),
           IconButton(
             icon:_columnIcon,
@@ -85,6 +86,17 @@ class _SearchPageState extends State<SearchPage> {
           }
         } ,
       ),
+    );
+  }
+
+  void _moveToFavorites () {
+    Navigator
+        .of(context)
+        .push(MaterialPageRoute(
+        builder: (context) {
+          return const FavoritePage();
+        }
+      )
     );
   }
 

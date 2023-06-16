@@ -61,11 +61,26 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
       case (error: var error?, post: null) :
         emit(state.copyWith(status: PostStatus.failure));
       case (error: null, post: null) :
+        _eventAction(emit: emit, event: event!);
+    }
+  }
+  void _eventAction ({
+    required Emitter<FavoritePageState> emit,
+    required AdddOrRemoveEvent event ,
+}) {
+    switch (event.action) {
+      case EventAction.insert :
         emit(
             state.copyWith(
-                    status: PostStatus.success,
-                    posts: List.from(state.posts)..add(event!.post))
-      );
+                status: PostStatus.success,
+                posts: List.from(state.posts)..add(event.post))
+        );
+      case EventAction.remove :
+        emit(
+            state.copyWith(
+                status: PostStatus.success,
+                posts: List.from(state.posts)..remove(event.post))
+        );
     }
   }
 }

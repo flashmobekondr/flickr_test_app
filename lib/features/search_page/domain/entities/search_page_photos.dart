@@ -47,5 +47,5 @@ class Post extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id,owner,secret,server,title,photoUrl];
 }
