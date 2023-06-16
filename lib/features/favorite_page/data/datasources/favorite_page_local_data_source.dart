@@ -77,14 +77,16 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
     );
   }
   Future<List<PostModel>> _getPost() async {
+    print("вход в _getPosts");
     final db = await _getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(_table);
 
-    return List.generate(maps.length, (index) {
-      print('final List postModel');
+    final liss =  List.generate(maps.length, (index) {
       return PostModel.fromMap(maps[index]);
 
     });
+    print("List<Posmodel> : lenght is  ${liss.length}");
+    return liss;
   }
 }
