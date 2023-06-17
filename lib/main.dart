@@ -31,9 +31,9 @@ class FlickerApp extends StatelessWidget {
           ),
         ],
         child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flicker_test',
-        home: SearchPage(),
+            debugShowCheckedModeBanner: false,
+            title: 'Flicker_test',
+            home: SearchPage(),
         )
     );
   }

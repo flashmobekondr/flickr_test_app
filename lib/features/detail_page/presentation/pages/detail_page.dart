@@ -1,7 +1,7 @@
 import 'package:flickr_test_app/features/detail_page/presentation/widgets/detail_page_detail_body.dart';
 import 'package:flutter/material.dart';
 import '../../../search_page/data/model/search_page_post_model.dart';
-import 'favorite_page_button.dart';
+import '../widgets/favorite_page_button.dart';
 
 class DetailPage extends StatelessWidget {
   final PostModel post;

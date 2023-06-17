@@ -3,7 +3,6 @@ import 'package:flickr_test_app/features/search_page/data/model/search_page_post
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../../core/api_constants/api_constants.dart';
 enum PostAction {cache, delete, get}
 
 abstract interface class FavoritePageLocalDataSource {
@@ -33,7 +32,7 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
           return null;
       }
     } catch (_) {
-      rethrow;
+       rethrow;
     }
   }
 
@@ -77,16 +76,13 @@ class FavoritePageLocalDataSourceImpl implements FavoritePageLocalDataSource {
     );
   }
   Future<List<PostModel>> _getPost() async {
-    print("вход в _getPosts");
     final db = await _getDatabase();
 
     final List<Map<String, dynamic>> maps = await db.query(_table);
 
-    final liss =  List.generate(maps.length, (index) {
-      return PostModel.fromMap(maps[index]);
-
-    });
-    print("List<Posmodel> : lenght is  ${liss.length}");
-    return liss;
+      return List.generate(maps.length, (index) {
+        return PostModel.fromMap(maps[index]);
+      }
+    );
   }
 }

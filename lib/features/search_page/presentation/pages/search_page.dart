@@ -44,7 +44,8 @@ class _SearchPageState extends State<SearchPage> {
         actions: [
           IconButton(
               onPressed: _moveToFavorites,
-              icon: const Icon(Icons.star)),
+              icon: const Icon(Icons.star)
+          ),
           IconButton(
             icon:_columnIcon,
             onPressed:_switchView,
@@ -69,6 +70,7 @@ class _SearchPageState extends State<SearchPage> {
               return RefreshIndicator(
                 onRefresh: _refreshState,
                 child: GridView.builder(
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     controller: _scrollController,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: _crossAxisCount,
@@ -125,6 +127,10 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {});
   }
 
+  bool get _currentTextIsNotNull {
+    return  _textController.text.isNotEmpty;
+  }
+
   Future<void> _refreshState() async {
     if(_currentTextIsNotNull) {
       final block = BlocProvider.of<SearchPageBloc>(context).stream.first;
@@ -137,14 +143,6 @@ class _SearchPageState extends State<SearchPage> {
     if (_isBottom && _currentTextIsNotNull) {
       BlocProvider.of<SearchPageBloc>(context).add(SearchPageLoadNewPage(text: _textController.text));
     }
-    //context.read<PostBloc>().add(PostFetched());
-  }
-  bool get _currentTextIsNotNull {
-    bool isNotEmpty;
-    _textController.text.isNotEmpty
-        ? isNotEmpty = true
-        : isNotEmpty = false;
-    return isNotEmpty;
   }
 
   bool get _isBottom {
