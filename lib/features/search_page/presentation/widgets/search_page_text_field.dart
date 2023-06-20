@@ -33,11 +33,12 @@ class SearchPageTextField extends StatelessWidget {
           right: 15.0,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: const BorderSide(
-              color: Colors.white60,
-              width: 3,
-            )),
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: const BorderSide(
+            color: Colors.white60,
+            width: 3,
+          ),
+        ),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: BorderSide.none),

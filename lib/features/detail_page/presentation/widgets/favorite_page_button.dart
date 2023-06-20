@@ -15,27 +15,29 @@ class FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritePageBloc, FavoritePageState>(
-        builder: (context, state) {
-      switch (state.status) {
-        case PostStatus.failure:
-          return const Icon(Icons.error);
-        case PostStatus.initial:
-          return const Icon(Icons.view_comfortable);
-        case PostStatus.success:
-          return IconButton(
-            icon: state.posts.contains(post)
-                ? const Icon(Icons.star)
-                : const Icon(Icons.star_border),
-            onPressed: () {
-              state.posts.contains(post)
-                  ? BlocProvider.of<FavoritePageBloc>(context).add(
-                      AdddOrRemoveEvent(post: post, action: EventAction.remove))
-                  : BlocProvider.of<FavoritePageBloc>(context).add(
-                      AdddOrRemoveEvent(
-                          post: post, action: EventAction.insert));
-            },
-          );
-      }
-    });
+      builder: (context, state) {
+        switch (state.status) {
+          case PostStatus.failure:
+            return const Icon(Icons.error);
+          case PostStatus.initial:
+            return const Icon(Icons.view_comfortable);
+          case PostStatus.success:
+            return IconButton(
+              icon: state.posts.contains(post)
+                  ? const Icon(Icons.star)
+                  : const Icon(Icons.star_border),
+              onPressed: () {
+                state.posts.contains(post)
+                    ? BlocProvider.of<FavoritePageBloc>(context).add(
+                        AdddOrRemoveEvent(
+                            post: post, action: EventAction.remove))
+                    : BlocProvider.of<FavoritePageBloc>(context).add(
+                        AdddOrRemoveEvent(
+                            post: post, action: EventAction.insert));
+              },
+            );
+        }
+      },
+    );
   }
 }

@@ -14,23 +14,30 @@ class GridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-          onTap: () {
-            FocusScope.of(context).hasFocus
-                ? FocusScope.of(context).unfocus()
-                : Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                    BlocProvider.of<DetailPageBloc>(context)
-                        .add(DetailPageGetDetail(post: state));
-                    return DetailPage(post: state);
-                  }));
-          },
-          child: Container(
-            margin: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(state.photoUrl))),
-          )),
+        child: Container(
+          margin: const EdgeInsets.all(3.0),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(state.photoUrl),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+          ),
+        ),
+        onTap: () {
+          FocusScope.of(context).hasFocus
+              ? FocusScope.of(context).unfocus()
+              : Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      BlocProvider.of<DetailPageBloc>(context)
+                          .add(DetailPageGetDetail(post: state));
+                      return DetailPage(post: state);
+                    },
+                  ),
+                );
+        },
+      ),
     );
   }
 }

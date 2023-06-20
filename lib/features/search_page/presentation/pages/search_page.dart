@@ -45,7 +45,10 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: _moveToFavorites, icon: const Icon(Icons.star)),
+          IconButton(
+            icon: const Icon(Icons.star),
+            onPressed: _moveToFavorites,
+          ),
           IconButton(
             icon: _columnIcon,
             onPressed: _switchView,

@@ -16,21 +16,27 @@ class ListItem extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () =>
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        BlocProvider.of<DetailPageBloc>(context)
-            .add(DetailPageGetDetail(post: post));
-        return DetailPage(post: post);
-      })),
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            BlocProvider.of<DetailPageBloc>(context)
+                .add(DetailPageGetDetail(post: post));
+            return DetailPage(post: post);
+          },
+        ),
+      ),
       child: Center(
         child: Container(
           height: screenSize.height / 4,
           width: screenSize.width,
           margin: const EdgeInsets.all(3.0),
           decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(post.photoUrl))),
+            borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(post.photoUrl),
+            ),
+          ),
         ),
       ),
     );
