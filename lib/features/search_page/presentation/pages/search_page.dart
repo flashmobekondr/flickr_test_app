@@ -63,12 +63,24 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context, state) {
           switch (state.status) {
             case PhotoStatus.failure:
-              return const Center(child: Text('failed to fetch photos'));
+              return const Center(
+                child: Text(
+                  'failed to fetch photos',
+                ),
+              );
             case PhotoStatus.initial:
-              return const Center(child: Text('Explore pictures you want'));
+              return const Center(
+                child: Text(
+                  'Explore pictures you want',
+                ),
+              );
             case PhotoStatus.success:
               if (state.photos.isEmpty) {
-                return const Center(child: Text('no posts'));
+                return const Center(
+                  child: Text(
+                    'no posts',
+                  ),
+                );
               }
               return RefreshIndicator(
                 onRefresh: _refreshState,

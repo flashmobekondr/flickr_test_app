@@ -14,9 +14,17 @@ class FavoriteBody extends StatelessWidget {
       builder: (context, state) {
         switch (state.status) {
           case PostStatus.initial:
-            return const Center(child: Text('No post yet'));
+            return const Center(
+              child: Text(
+                'No post yet',
+              ),
+            );
           case PostStatus.failure:
-            return const Center(child: Text('Error :Can not load posts'));
+            return const Center(
+              child: Text(
+                'Error :Can not load posts',
+              ),
+            );
           case PostStatus.success:
             return ListView.builder(
               itemCount: state.posts.length,

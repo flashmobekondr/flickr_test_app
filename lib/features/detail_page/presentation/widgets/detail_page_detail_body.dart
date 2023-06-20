@@ -13,9 +13,17 @@ class DetailBody extends StatelessWidget {
       builder: (context, state) {
         switch (state.status) {
           case PostStatus.failure:
-            return const Center(child: Text('failed to fetch photo'));
+            return const Center(
+              child: Text(
+                'failed to fetch photo',
+              ),
+            );
           case PostStatus.initial:
-            return const Center(child: Text('...'));
+            return const Center(
+              child: Text(
+                '...',
+              ),
+            );
           case PostStatus.success:
             return PhotoView(
               enablePanAlways: true,
