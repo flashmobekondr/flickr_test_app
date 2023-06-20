@@ -73,21 +73,22 @@ class _SearchPageState extends State<SearchPage> {
               return RefreshIndicator(
                 onRefresh: _refreshState,
                 child: GridView.builder(
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    controller: _scrollController,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: _crossAxisCount,
-                    ),
-                    itemCount:
-                        (state.hasReachedMax || _textController.text.isEmpty)
-                            ? state.photos.length
-                            : state.photos.length + 1,
-                    itemBuilder: (context, index) {
-                      return index >= state.photos.length
-                          ? const BottomLoader()
-                          : GridItem(state: state.photos[index]);
-                    }),
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  controller: _scrollController,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _crossAxisCount,
+                  ),
+                  itemCount:
+                      (state.hasReachedMax || _textController.text.isEmpty)
+                          ? state.photos.length
+                          : state.photos.length + 1,
+                  itemBuilder: (context, index) {
+                    return index >= state.photos.length
+                        ? const BottomLoader()
+                        : GridItem(state: state.photos[index]);
+                  },
+                ),
               );
           }
         },
@@ -96,9 +97,13 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _moveToFavorites() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return const FavoritePage();
-    }));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return const FavoritePage();
+        },
+      ),
+    );
   }
 
   Widget get _columnIcon {

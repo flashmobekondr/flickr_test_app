@@ -26,7 +26,9 @@ class SearchPageTextField extends StatelessWidget {
       textInputAction: TextInputAction.search,
       controller: textController,
       decoration: InputDecoration(
-        label: const Icon(Icons.search),
+        label: const Icon(
+          Icons.search,
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         contentPadding: const EdgeInsets.only(
           left: 15.0,
@@ -40,8 +42,9 @@ class SearchPageTextField extends StatelessWidget {
           ),
         ),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: BorderSide.none),
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide.none,
+        ),
         suffix: GestureDetector(
           onTap: _onTapClear,
           child: const Icon(
