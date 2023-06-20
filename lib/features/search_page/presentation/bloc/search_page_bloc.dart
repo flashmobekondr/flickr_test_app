@@ -16,59 +16,72 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 
 class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
   final FetchPhotos fetchPhotos;
-  SearchPageBloc({required this.fetchPhotos}) : super(const SearchPageState()){
+
+  SearchPageBloc({required this.fetchPhotos}) : super(const SearchPageState()) {
     on<SearchPageTextChanged>(
-        _oneTextChangedOrRefreshed,
-        transformer:throttleDroppable(throttleDuration),
+      _oneTextChangedOrRefreshed,
+      transformer: throttleDroppable(throttleDuration),
     );
     on<SearchPageRefreshPage>(
-        _oneTextChangedOrRefreshed,
-        transformer: throttleDroppable(throttleDuration),
+      _oneTextChangedOrRefreshed,
+      transformer: throttleDroppable(throttleDuration),
     );
     on<SearchPageLoadNewPage>(
-        _onLoadNewPage,
-        transformer:  throttleDroppable(throttleDuration),
+      _onLoadNewPage,
+      transformer: throttleDroppable(throttleDuration),
     );
   }
 
-  Future<void> _oneTextChangedOrRefreshed (
-      SearchPageEvent event,
-      Emitter<SearchPageState> emit,
-      ) async {
-    await _loadParticularPage(emit: emit, event: event, state: state, pageNumber: firstPageNumber, text: event.text);
+  Future<void> _oneTextChangedOrRefreshed(
+    SearchPageEvent event,
+    Emitter<SearchPageState> emit,
+  ) async {
+    await _loadParticularPage(
+        emit: emit,
+        event: event,
+        state: state,
+        pageNumber: firstPageNumber,
+        text: event.text);
   }
 
-  Future<void> _onLoadNewPage (
-      SearchPageLoadNewPage event,
-      Emitter<SearchPageState> emit,
-      ) async {
-    final int newPageNumber = state.page +1;
-    await _loadParticularPage(emit: emit, event: event, state: state, pageNumber:newPageNumber, text: event.text);
+  Future<void> _onLoadNewPage(
+    SearchPageLoadNewPage event,
+    Emitter<SearchPageState> emit,
+  ) async {
+    final int newPageNumber = state.page + 1;
+    await _loadParticularPage(
+        emit: emit,
+        event: event,
+        state: state,
+        pageNumber: newPageNumber,
+        text: event.text);
   }
 
-  Future<void> _loadParticularPage ({
-        required Emitter<SearchPageState> emit,
-        required SearchPageEvent event,
-        required SearchPageState state,
-        required int pageNumber,
-        required String text
-  }) async {
+  Future<void> _loadParticularPage(
+      {required Emitter<SearchPageState> emit,
+      required SearchPageEvent event,
+      required SearchPageState state,
+      required int pageNumber,
+      required String text}) async {
     if (state.hasReachedMax) return;
-    final result = await fetchPhotos(pageNumber: pageNumber,textQueue: event.text);
+    final result =
+        await fetchPhotos(pageNumber: pageNumber, textQueue: event.text);
     switch (result) {
       case (error: null, photos: var photos?):
         photos.photo.isEmpty
             ? emit(state.copyWith(hasReachedMax: true))
             : emit(
                 state.copyWith(
-              status: PhotoStatus.success,
-              hasReachedMax: false,
-              photos:pageNumber == firstPageNumber ? photos.photo : state.photos + photos.photo,
-              //photos: photos.photo,
-              page: pageNumber,
-          ),
-        );
-      case (error: var error?, photos: null) :
+                  status: PhotoStatus.success,
+                  hasReachedMax: false,
+                  photos: pageNumber == firstPageNumber
+                      ? photos.photo
+                      : state.photos + photos.photo,
+                  //photos: photos.photo,
+                  page: pageNumber,
+                ),
+              );
+      case (error: var error?, photos: null):
         emit(state.copyWith(status: PhotoStatus.failure));
     }
   }

@@ -7,5 +7,6 @@ final class TransformData {
   final DetailPageDataTransform transform;
   const TransformData({required this.transform});
 
-  DetailPost call ({required Post post}) => transform.transformSearchPostToDetail(post);
+  DetailPost call({required Post post}) =>
+      transform.transformSearchPostToDetail(post);
 }

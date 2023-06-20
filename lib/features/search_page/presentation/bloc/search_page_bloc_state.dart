@@ -1,12 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flickr_test_app/features/search_page/domain/entities/search_page_photos.dart';
-
 import '../../data/model/search_page_post_model.dart';
 
-enum PhotoStatus {initial, success, failure}
-// class SearchPageInitialState extends SearchPageState {}
-// class SearchPageLoadingState extends SearchPageState {}
-//class SearchPageErrorState extends SearchPageState {}
+enum PhotoStatus { initial, success, failure }
 
 final class SearchPageState extends Equatable {
   final List<PostModel> photos;
@@ -31,12 +26,13 @@ final class SearchPageState extends Equatable {
         photos: photos ?? this.photos,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         status: status ?? this.status,
-        page: page ?? this.page
-    );
+        page: page ?? this.page);
   }
-  @override
-  List<Object?> get props => [photos,status, page, hasReachedMax];
 
   @override
-  String toString() => 'SearchPageState {status: $status, amount: ${photos.length},page:$page, hasReachedMax: $hasReachedMax}';
+  List<Object?> get props => [photos, status, page, hasReachedMax];
+
+  @override
+  String toString() =>
+      'SearchPageState {status: $status, amount: ${photos.length},page:$page, hasReachedMax: $hasReachedMax}';
 }

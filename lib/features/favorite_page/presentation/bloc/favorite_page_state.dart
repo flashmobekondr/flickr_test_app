@@ -6,26 +6,21 @@ final class FavoritePageState extends Equatable {
   final List<PostModel> posts;
   final PostStatus status;
 
-  const FavoritePageState({
-    this.posts = const <PostModel>[],
-    this.status = PostStatus.initial
-  });
+  const FavoritePageState(
+      {this.posts = const <PostModel>[], this.status = PostStatus.initial});
 
   FavoritePageState copyWith({
-      List<PostModel>? posts,
-      PostStatus? status,
+    List<PostModel>? posts,
+    PostStatus? status,
   }) {
-      return  FavoritePageState(
-          posts: posts ?? this.posts,
-          status: status ?? this.status
-      );
-}
-
+    return FavoritePageState(
+        posts: posts ?? this.posts, status: status ?? this.status);
+  }
 
   @override
-  List<Object?> get props =>[status,posts];
+  List<Object?> get props => [status, posts];
 
   @override
-  String toString() => 'FavoritePageState: {status: $status, amount: ${posts.length}';
-
+  String toString() =>
+      'FavoritePageState: {status: $status, amount: ${posts.length}';
 }

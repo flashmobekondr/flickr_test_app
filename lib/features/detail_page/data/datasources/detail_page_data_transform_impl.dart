@@ -3,12 +3,12 @@ import 'package:flickr_test_app/features/detail_page/domain/entities/detail_page
 
 import 'package:flickr_test_app/features/search_page/domain/entities/search_page_photos.dart';
 
-
 abstract interface class DetailPageDataTransform {
-  DetailPost transformSearchPostToDetail (Post post);
+  DetailPost transformSearchPostToDetail(Post post);
 }
 
 class DetailPageDataTransformImpl implements DetailPageDataTransform {
   @override
-  DetailPost transformSearchPostToDetail(Post post) => DetailPostModel.searchToDetail(post);
+  DetailPost transformSearchPostToDetail(Post post) =>
+      DetailPostModel.searchToDetail(post);
 }

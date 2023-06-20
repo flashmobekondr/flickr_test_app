@@ -21,7 +21,10 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
   final GetFavoritePhotos getFavoritePhotos;
   final AddOrRemoveFavoritePost removeOrAddPost;
-  FavoritePageBloc({required this.getFavoritePhotos, required this.removeOrAddPost}): super(const FavoritePageState()){
+
+  FavoritePageBloc(
+      {required this.getFavoritePhotos, required this.removeOrAddPost})
+      : super(const FavoritePageState()) {
     on<LoadFavoriteEvent>(
       _onLoadFavorite,
       transformer: throttleDroppable(throttleDuration),
@@ -31,56 +34,55 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
       transformer: throttleDroppable(throttleDuration),
     );
   }
-  
-  Future<void> _onLoadFavorite (
-      LoadFavoriteEvent event,
-      Emitter<FavoritePageState> emit,
-      ) async {
+
+  Future<void> _onLoadFavorite(
+    LoadFavoriteEvent event,
+    Emitter<FavoritePageState> emit,
+  ) async {
     final result = await getFavoritePhotos(action: PostAction.get);
     _extractList(result: result, emit: emit);
   }
-  
-  Future<void> _onAddOrRemove (
-      AdddOrRemoveEvent event,
-      Emitter<FavoritePageState> emit,
-      ) async {
+
+  Future<void> _onAddOrRemove(
+    AdddOrRemoveEvent event,
+    Emitter<FavoritePageState> emit,
+  ) async {
     final ({Failure? error, List<PostModel>? post}) result;
     state.posts.contains(event.post)
-        ? result = await removeOrAddPost(action: PostAction.delete, post:  event.post)
-        : result = await removeOrAddPost(action: PostAction.cache, post: event.post);
+        ? result =
+            await removeOrAddPost(action: PostAction.delete, post: event.post)
+        : result =
+            await removeOrAddPost(action: PostAction.cache, post: event.post);
     _extractList(result: result, emit: emit, event: event);
   }
 
-  void _extractList ({
-        required ({Failure? error, List<PostModel>? post}) result,
-        required Emitter<FavoritePageState> emit,
-        AdddOrRemoveEvent? event}) {
+  void _extractList(
+      {required ({Failure? error, List<PostModel>? post}) result,
+      required Emitter<FavoritePageState> emit,
+      AdddOrRemoveEvent? event}) {
     switch (result) {
-      case (error: null, post: var post?) :
+      case (error: null, post: var post?):
         emit(state.copyWith(posts: post, status: PostStatus.success));
-      case (error: var error?, post: null) :
+      case (error: var error?, post: null):
         emit(state.copyWith(status: PostStatus.failure));
-      case (error: null, post: null) :
+      case (error: null, post: null):
         _eventAction(emit: emit, event: event!);
     }
   }
-  void _eventAction ({
+
+  void _eventAction({
     required Emitter<FavoritePageState> emit,
-    required AdddOrRemoveEvent event ,
-}) {
+    required AdddOrRemoveEvent event,
+  }) {
     switch (event.action) {
-      case EventAction.insert :
-        emit(
-            state.copyWith(
-                status: PostStatus.success,
-                posts: List.from(state.posts)..add(event.post))
-        );
-      case EventAction.remove :
-        emit(
-            state.copyWith(
-                status: PostStatus.success,
-                posts: List.from(state.posts)..remove(event.post))
-        );
+      case EventAction.insert:
+        emit(state.copyWith(
+            status: PostStatus.success,
+            posts: List.from(state.posts)..add(event.post)));
+      case EventAction.remove:
+        emit(state.copyWith(
+            status: PostStatus.success,
+            posts: List.from(state.posts)..remove(event.post)));
     }
   }
 }

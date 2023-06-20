@@ -4,9 +4,10 @@ import 'package:flickr_test_app/features/search_page/domain/repositories/search_
 
 class FetchPhotos {
   final SearchPageRepository searchPageRepository;
+
   FetchPhotos({required this.searchPageRepository});
-  Future<({Failure? error, Photos? photos})> call({
-            required String textQueue,
-            required int pageNumber
-            }) async => searchPageRepository.getRemotePhotos(textQueue, pageNumber);
+
+  Future<({Failure? error, Photos? photos})> call(
+          {required String textQueue, required int pageNumber}) async =>
+      searchPageRepository.getRemotePhotos(textQueue, pageNumber);
 }

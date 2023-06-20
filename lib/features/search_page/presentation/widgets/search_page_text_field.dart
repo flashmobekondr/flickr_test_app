@@ -17,9 +17,10 @@ class SearchPageTextField extends StatelessWidget {
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
-      onSubmitted: (text){
-        if(text.isNotEmpty) {
-          BlocProvider.of<SearchPageBloc>(context).add(SearchPageTextChanged(text: text));
+      onSubmitted: (text) {
+        if (text.isNotEmpty) {
+          BlocProvider.of<SearchPageBloc>(context)
+              .add(SearchPageTextChanged(text: text));
         }
       },
       textInputAction: TextInputAction.search,
@@ -28,20 +29,18 @@ class SearchPageTextField extends StatelessWidget {
         label: const Icon(Icons.search),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         contentPadding: const EdgeInsets.only(
-            left: 15.0,
-            right:15.0,
+          left: 15.0,
+          right: 15.0,
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
               color: Colors.white60,
               width: 3,
-            )
-        ),
+            )),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
-            borderSide: BorderSide.none
-        ),
+            borderSide: BorderSide.none),
         suffix: GestureDetector(
           onTap: _onTapClear,
           child: const Icon(
@@ -60,7 +59,7 @@ class SearchPageTextField extends StatelessWidget {
 
   void _onTapClear() {
     textController.text.isNotEmpty
-      ? textController.clear()
-      : FocusManager.instance.primaryFocus?.unfocus();
+        ? textController.clear()
+        : FocusManager.instance.primaryFocus?.unfocus();
   }
 }

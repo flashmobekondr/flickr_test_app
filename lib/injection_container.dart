@@ -24,46 +24,46 @@ Future<void> init() async {
   //Bloc
   sl.registerFactory(() => SearchPageBloc(fetchPhotos: sl()));
   sl.registerFactory(() => DetailPageBloc(transformData: sl()));
-  sl.registerFactory(() => FavoritePageBloc(getFavoritePhotos: sl(), removeOrAddPost: sl()));
+  sl.registerFactory(
+      () => FavoritePageBloc(getFavoritePhotos: sl(), removeOrAddPost: sl()));
 
   //Use cases
   sl.registerLazySingleton(() => FetchPhotos(searchPageRepository: sl()));
   sl.registerLazySingleton(() => TransformData(transform: sl()));
-  sl.registerLazySingleton(() => GetFavoritePhotos(favoritePageRepository: sl()));
-  sl.registerLazySingleton(() => AddOrRemoveFavoritePost(favoritePageRepository: sl()));
+  sl.registerLazySingleton(
+      () => GetFavoritePhotos(favoritePageRepository: sl()));
+  sl.registerLazySingleton(
+      () => AddOrRemoveFavoritePost(favoritePageRepository: sl()));
 
   //Repositories
-  sl.registerLazySingleton <SearchPageRepository>(
-          () => SearchPageRepositoryImpl(
-              remoteDataSource: sl(),
-              networkInfo: sl(),
-          )
-  );
+  sl.registerLazySingleton<SearchPageRepository>(() => SearchPageRepositoryImpl(
+        remoteDataSource: sl(),
+        networkInfo: sl(),
+      ));
   sl.registerLazySingleton<FavoritePageRepository>(
-          () => FavoritePageRepositoryImpl(localDataSource: sl()),
+    () => FavoritePageRepositoryImpl(localDataSource: sl()),
   );
 
   //Remote data sources
-  sl.registerLazySingleton <SearchPageRemoteDataSource>(
-          () => SearchPageRemoteDataSourceImpl(
-              client: sl(),
-          ),
+  sl.registerLazySingleton<SearchPageRemoteDataSource>(
+    () => SearchPageRemoteDataSourceImpl(
+      client: sl(),
+    ),
   );
 
   //Local data sources
-  sl.registerLazySingleton <FavoritePageLocalDataSource>(() => FavoritePageLocalDataSourceImpl());
+  sl.registerLazySingleton<FavoritePageLocalDataSource>(
+      () => FavoritePageLocalDataSourceImpl());
 
   //Core
-  sl.registerLazySingleton <NetworkInfo>(
-          () => NetworkInfoImpl(
-              connectionChecker: sl()
-          )
-  );
+  sl.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(connectionChecker: sl()));
 
   //External
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker());
 
   //Transforms
-  sl.registerLazySingleton<DetailPageDataTransform>(() => DetailPageDataTransformImpl());
+  sl.registerLazySingleton<DetailPageDataTransform>(
+      () => DetailPageDataTransformImpl());
 }

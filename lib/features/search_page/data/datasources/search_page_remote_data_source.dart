@@ -6,40 +6,46 @@ import 'package:flickr_test_app/core/error/failures.dart';
 import 'package:flickr_test_app/features/search_page/data/model/search_page_photos_model.dart';
 
 abstract interface class SearchPageRemoteDataSource {
-  Future<({PhotosModel? photos, Failure? error})> fetchRemotePhotos(String textQueue,int pageNumber);
+  Future<({PhotosModel? photos, Failure? error})> fetchRemotePhotos(
+      String textQueue, int pageNumber);
 }
+
 class SearchPageRemoteDataSourceImpl extends SearchPageRemoteDataSource {
   SearchPageRemoteDataSourceImpl({required this.client});
+
   final http.Client client;
 
   @override
-  Future<({Failure? error,PhotosModel? photos})> fetchRemotePhotos(String textQueue,int pageNumber) async{
-    final rawUrl = Uri.https('www.flickr.com','services/rest/');
+  Future<({Failure? error, PhotosModel? photos})> fetchRemotePhotos(
+      String textQueue, int pageNumber) async {
+    final rawUrl = Uri.https('www.flickr.com', 'services/rest/');
     var requestBody = {
-      'method':ApiConstants.photoSearchMethod,
-      'api_key':ApiConstants.apiKey,
+      'method': ApiConstants.photoSearchMethod,
+      'api_key': ApiConstants.apiKey,
       'text': textQueue,
-      'per_page' : ApiConstants.perPage,
+      'per_page': ApiConstants.perPage,
       'page': pageNumber.toString(),
-      'format' : ApiConstants.format,
+      'format': ApiConstants.format,
       'nojsoncallback': '1'
     };
     try {
-      final response = await client.post(rawUrl,body: requestBody);
+      final response = await client.post(rawUrl, body: requestBody);
       if (response.statusCode == 200) {
-        print('status = 200');
-        final decodedResponse = (json.decode(response.body))['photos'] as Map<String,dynamic>;
+        final decodedResponse =
+            (json.decode(response.body))['photos'] as Map<String, dynamic>;
         final photosObject = PhotosModel.fromJson(decodedResponse);
-        final ({Failure? error, PhotosModel? photos}) result = (error: null, photos: photosObject);
-          return result;
+        final ({Failure? error, PhotosModel? photos}) result =
+            (error: null, photos: photosObject);
+        return result;
       } else {
-        final ({Failure? error, PhotosModel? photos}) failureResult = (error:ServerFailure(), photos: null);
-          return failureResult;
+        final ({Failure? error, PhotosModel? photos}) failureResult =
+            (error: ServerFailure(), photos: null);
+        return failureResult;
       }
-    } catch(e) {
-      final ({Failure? error, PhotosModel? photos}) failureResult = (error:ServerFailure(), photos: null);
-    return failureResult;
+    } catch (e) {
+      final ({Failure? error, PhotosModel? photos}) failureResult =
+          (error: ServerFailure(), photos: null);
+      return failureResult;
     }
   }
-
 }

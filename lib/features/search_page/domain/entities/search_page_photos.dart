@@ -16,11 +16,10 @@ class Photos extends Equatable {
     required this.photo,
   });
 
-
   @override
-  List<Object?> get props =>[];
-
+  List<Object?> get props => [];
 }
+
 class Post extends Equatable {
   final String id;
   final String owner;
@@ -33,19 +32,18 @@ class Post extends Equatable {
   final int isfamily;
   final String photoUrl;
 
-  const Post({
-    required this.id,
-    required this.owner,
-    required this.secret,
-    required this.server,
-    required this.farm,
-    required this.title,
-    required this.ispublic,
-    required this.isfriend,
-    required this.isfamily,
-    required this.photoUrl
-  });
+  const Post(
+      {required this.id,
+      required this.owner,
+      required this.secret,
+      required this.server,
+      required this.farm,
+      required this.title,
+      required this.ispublic,
+      required this.isfriend,
+      required this.isfamily,
+      required this.photoUrl});
 
   @override
-  List<Object?> get props => [id,owner,secret,server,title,photoUrl];
+  List<Object?> get props => [id, owner, secret, server, title, photoUrl];
 }

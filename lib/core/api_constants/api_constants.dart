@@ -8,6 +8,7 @@ final class ApiConstants {
   static const String format = 'json';
   static const String perPage = '40';
 }
+
 final class SizeSuffix {
   static const String thumbnail_75 = 's';
   static const String thumbnail_150 = 'q';
@@ -21,30 +22,31 @@ final class SizeSuffix {
 }
 
 Map<String, String> sizeSuffix = {
-        'thumbnail_75':'s',
-        'thumbnail_150':'q',
-        'thumbnail_100':'t',
-        'small_240':'m',
-        'small_320':'n',
-        'small_400':'w',
-        'medium_640':'z',
-        'medium_800':'c',
-        'large_1024':'b',
+  'thumbnail_75': 's',
+  'thumbnail_150': 'q',
+  'thumbnail_100': 't',
+  'small_240': 'm',
+  'small_320': 'n',
+  'small_400': 'w',
+  'medium_640': 'z',
+  'medium_800': 'c',
+  'large_1024': 'b',
 };
-// The various sizes offered on Flickr have the following letter suffixes:
-// s	thumbnail	75	cropped square
-// q	thumbnail	150	cropped square
-// t	thumbnail	100
-// m	small	240
-// n	small	320
-// w	small	400
-// (none)	medium	500
-// z	medium	640
-// c	medium	800
-// b	large	1024
 
-// Unique URL format for 500px size
-// https://live.staticflickr.com/{server-id}/{id}_{secret}.jpg
-
-// REST Request for photo.search method with text and page parameters
-//https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=c489e580513435a1fada09a6ee28579b&text=waterfall&per_page=20&format=json&nojsoncallback=1
+/// The various sizes offered on Flickr have the following letter suffixes:
+/// s	thumbnail	75	cropped square
+/// q	thumbnail	150	cropped square
+/// t	thumbnail	100
+/// m	small	240
+/// n	small	320
+/// w	small	400
+/// (none)	medium	500
+/// z	medium	640
+/// c	medium	800
+/// b	large	1024
+///
+/// Unique URL format for 500px size
+/// https://live.staticflickr.com/{server-id}/{id}_{secret}.jpg
+///
+/// REST Request for photo.search method with text and page parameters
+///https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=c489e580513435a1fada09a6ee28579b&text=waterfall&per_page=20&format=json&nojsoncallback=1

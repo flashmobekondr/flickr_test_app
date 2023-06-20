@@ -6,26 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteBody extends StatelessWidget {
-   const FavoriteBody({super.key});
+  const FavoriteBody({super.key});
+
   @override
   Widget build(BuildContext context) {
-    //Size  screenSize = MediaQuery.of(context).size;
-
     return BlocBuilder<FavoritePageBloc, FavoritePageState>(
         builder: (context, state) {
-          switch (state.status) {
-            case PostStatus.initial :
-              return const Center(child: Text('No post yet'));
-            case PostStatus.failure :
-              return const Center(child: Text('Error :Can not load posts'));
-            case PostStatus.success :
-              return ListView.builder(
-                  itemCount: state.posts.length,
-                  itemBuilder: (context, index) {
-                    return ListItem(post: state.posts[index]);
-                  });
-          }
-        }
-    );
+      switch (state.status) {
+        case PostStatus.initial:
+          return const Center(child: Text('No post yet'));
+        case PostStatus.failure:
+          return const Center(child: Text('Error :Can not load posts'));
+        case PostStatus.success:
+          return ListView.builder(
+              itemCount: state.posts.length,
+              itemBuilder: (context, index) {
+                return ListItem(post: state.posts[index]);
+              });
+      }
+    });
   }
 }

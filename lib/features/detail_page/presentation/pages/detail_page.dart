@@ -5,14 +5,15 @@ import '../widgets/favorite_page_button.dart';
 
 class DetailPage extends StatelessWidget {
   final PostModel post;
+
   const DetailPage({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar:  AppBar(
-        actions:  [
+      appBar: AppBar(
+        actions: [
           FavoriteButton(post: post),
         ],
         elevation: 0,

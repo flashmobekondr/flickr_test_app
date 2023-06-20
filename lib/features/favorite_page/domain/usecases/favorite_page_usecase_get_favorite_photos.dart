@@ -6,8 +6,10 @@ import '../../../search_page/data/model/search_page_post_model.dart';
 
 class GetFavoritePhotos {
   final FavoritePageRepository favoritePageRepository;
+
   GetFavoritePhotos({required this.favoritePageRepository});
 
-  Future<({List<PostModel>? post, Failure? error})> call ({
-    required PostAction action}) async => favoritePageRepository.deleteAddOrGetLocalPosts(action: action);
+  Future<({List<PostModel>? post, Failure? error})> call(
+          {required PostAction action}) async =>
+      favoritePageRepository.deleteAddOrGetLocalPosts(action: action);
 }

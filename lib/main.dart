@@ -18,23 +18,23 @@ class FlickerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MultiBlocProvider(
+    return MultiBlocProvider(
         providers: [
           BlocProvider<FavoritePageBloc>(
-            create: (context) => di.sl<FavoritePageBloc>()..add(LoadFavoriteEvent()),
+            create: (context) =>
+                di.sl<FavoritePageBloc>()..add(LoadFavoriteEvent()),
           ),
           BlocProvider<SearchPageBloc>(
-              create: (context) => di.sl<SearchPageBloc>(),
+            create: (context) => di.sl<SearchPageBloc>(),
           ),
           BlocProvider<DetailPageBloc>(
-              create: (context) => di.sl<DetailPageBloc>(),
+            create: (context) => di.sl<DetailPageBloc>(),
           ),
         ],
         child: const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flicker_test',
-            home: SearchPage(),
-        )
-    );
+          debugShowCheckedModeBanner: false,
+          title: 'Flicker_test',
+          home: SearchPage(),
+        ));
   }
 }
