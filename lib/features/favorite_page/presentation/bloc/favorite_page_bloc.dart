@@ -22,12 +22,12 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
   final GetFavoritePhotos getFavoritePhotos;
   final AddOrRemoveFavoritePost removeOrAddPost;
 
-  FavoritePageBloc(
-      {required this.getFavoritePhotos, required this.removeOrAddPost})
-      : super(const FavoritePageState()) {
+  FavoritePageBloc({
+    required this.getFavoritePhotos,
+    required this.removeOrAddPost,
+  }) : super(const FavoritePageState()) {
     on<LoadFavoriteEvent>(
       _onLoadFavorite,
-      transformer: throttleDroppable(throttleDuration),
     );
     on<AdddOrRemoveEvent>(
       _onAddOrRemove,
@@ -53,7 +53,11 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
             await removeOrAddPost(action: PostAction.delete, post: event.post)
         : result =
             await removeOrAddPost(action: PostAction.cache, post: event.post);
-    _extractList(result: result, emit: emit, event: event);
+    _extractList(
+      result: result,
+      emit: emit,
+      event: event,
+    );
   }
 
   void _extractList(
@@ -62,9 +66,18 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
       AdddOrRemoveEvent? event}) {
     switch (result) {
       case (error: null, post: var post?):
-        emit(state.copyWith(posts: post, status: PostStatus.success));
+        emit(
+          state.copyWith(
+            posts: post,
+            status: PostStatus.success,
+          ),
+        );
       case (error: var error?, post: null):
-        emit(state.copyWith(status: PostStatus.failure));
+        emit(
+          state.copyWith(
+            status: PostStatus.failure,
+          ),
+        );
       case (error: null, post: null):
         _eventAction(emit: emit, event: event!);
     }
@@ -76,13 +89,19 @@ class FavoritePageBloc extends Bloc<FavoritePageEvent, FavoritePageState> {
   }) {
     switch (event.action) {
       case EventAction.insert:
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             status: PostStatus.success,
-            posts: List.from(state.posts)..add(event.post)));
+            posts: List.from(state.posts)..add(event.post),
+          ),
+        );
       case EventAction.remove:
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             status: PostStatus.success,
-            posts: List.from(state.posts)..remove(event.post)));
+            posts: List.from(state.posts)..remove(event.post),
+          ),
+        );
     }
   }
 }
