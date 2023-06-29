@@ -85,6 +85,7 @@ class _SearchPageState extends State<SearchPage> {
               return RefreshIndicator(
                 onRefresh: _refreshState,
                 child: GridView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,
                   controller: _scrollController,
