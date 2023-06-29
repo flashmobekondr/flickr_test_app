@@ -150,8 +150,10 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> _refreshState() async {
     if (_currentTextIsNotNull) {
+      final block = BlocProvider.of<SearchPageBloc>(context).stream.first;
       BlocProvider.of<SearchPageBloc>(context)
           .add(SearchPageRefreshPage(text: _textController.text));
+      await block;
     }
   }
 

@@ -1,9 +1,8 @@
-import 'package:equatable/equatable.dart';
 import '../../data/model/search_page_post_model.dart';
 
 enum PhotoStatus { initial, success, failure }
 
-final class SearchPageState extends Equatable {
+final class SearchPageState {
   final List<PostModel> photos;
   final bool hasReachedMax;
   final PhotoStatus status;
@@ -28,9 +27,6 @@ final class SearchPageState extends Equatable {
         status: status ?? this.status,
         page: page ?? this.page);
   }
-
-  @override
-  List<Object?> get props => [photos, status, page, hasReachedMax];
 
   @override
   String toString() =>
